@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Login</title>
+	<link rel="icon" href="./images/favicon.ico" type="image/x-icon">
+
+
+	<!-- Normalize V8.0.1 -->
+	<link rel="stylesheet" href="./css/normalize.css">
+
+	<!-- Bootstrap V4.3 -->
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
+
+	<!-- Bootstrap Material Design V4.0 -->
+	<link rel="stylesheet" href="./css/bootstrap-material-design.min.css">
+
+	<!-- Font Awesome V5.9.0 -->
+	<link rel="stylesheet" href="./css/all.css">
+
+	<!-- Sweet Alerts V8.13.0 CSS file -->
+	<link rel="stylesheet" href="./css/sweetalert2.min.css">
+
+	<!-- Sweet Alert V8.13.0 JS file -->
+	<script src="./js/sweetalert2.min.js"></script>
+
+	<!-- jQuery Custom Content Scroller V3.1.5 -->
+	<link rel="stylesheet" href="./css/jquery.mCustomScrollbar.css">
+	
+	<!-- General Styles -->
+	<link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+	<div class="login-container">
+		<div class="login-content">
+			<p class="text-center">
+				<i class="fas fa-user-circle fa-5x"></i>
+			</p>
+			<p class="text-center">
+				Inicia sesión con tu cuenta
+			</p>
+			<form id="loginForm">
+				<div class="form-group">
+					<label for="UserName" class="bmd-label-floating"><i class="fas fa-user-secret"></i> &nbsp; Usuario</label>
+					<input type="text" class="form-control" id="UserName" name="usuario" pattern="[a-zA-Z0-9]{1,35}" maxlength="35" autocomplete="off" required>
+				</div>
+				<div class="form-group">
+					<label for="UserPassword" class="bmd-label-floating"><i class="fas fa-key"></i> &nbsp; Contraseña</label>
+					<input type="password" class="form-control" id="UserPassword" name="clave" maxlength="200" required>
+				</div>
+				<button type="submit" class="btn-login text-center">INICIAR SESIÓN</button>
+				
+				<br>
+				<small class="roboto-condensed-light">Proyecto SENA 2024</small>
+				<br>
+				<br>
+				<p class="text-center">V1.0</p>
+			</form>
+		</div>
+	</div>
+
+	<!-- JavaScript -->
+	<script src="./js/jquery-3.4.1.min.js"></script>
+	<script src="./js/popper.min.js"></script>
+	<script src="./js/bootstrap.min.js"></script>
+	<script src="./js/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script src="./js/bootstrap-material-design.min.js"></script>
+	<script>
+		$(document).ready(function() { 
+			$('body').bootstrapMaterialDesign(); 
+		});
+
+		// Usuarios y contraseñas predefinidos
+		const users = {
+			"Admin": "Admin12345.",
+			"administrador": "Admin12345.",
+			"Jberthel": "12345",
+			"Carcamo": "12345",
+			"Lider": "Admin12345."
+		};
+
+		// Manejo del formulario de login
+	document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const usernameInput = document.getElementById('UserName');
+    const passwordInput = document.getElementById('UserPassword');
+
+    const username = usernameInput.value.trim();
+    const password = passwordInput.value;
+
+    if (users[username] && users[username] === password) {
+        Swal.fire({
+            icon: 'success',
+            title: '¡Login exitoso!',
+            text: `Bienvenido, ${username}`,
+            confirmButtonText: 'Continuar'
+        }).then(() => {
+            // Redirigir a otra página
+            window.location.href = 'home.html';
+        });
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Usuario o contraseña incorrectos',
+            confirmButtonText: 'Intentar de nuevo'
+        }).then(() => {
+            // Borrar los campos de usuario y contraseña
+            usernameInput.value = '';
+            passwordInput.value = '';
+        });
+    }
+});
+	</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Verificar si el usuario está logueado
+        if (!sessionStorage.getItem('loggedIn')) {
+            // Bloquear navegación atrás
+            history.pushState(null, '', window.location.href);
+            window.addEventListener('popstate', function(event) {
+                history.pushState(null, '', window.location.href);
+            });
+
+            // Mostrar un mensaje o redirigir
+            Swal.fire({
+                icon: 'warning',
+                title: 'Sesión cerrada',
+                text: 'Por favor, inicia sesión nuevamente.',
+                confirmButtonText: 'Aceptar'
+            });
+        }
+    });
+</script>
+
+<script>
+    history.pushState(null, '', window.location.href);
+    window.addEventListener('popstate', function (event) {
+        history.pushState(null, '', window.location.href);
+        Swal.fire({
+            icon: 'warning',
+            title: 'Navegación bloqueada',
+            text: 'No puedes retroceder desde esta página.',
+            confirmButtonText: 'Aceptar'
+        });
+    });
+</script>
+
+
+
+
+
+</body>
+</html>
